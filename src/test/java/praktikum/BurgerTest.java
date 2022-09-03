@@ -1,7 +1,5 @@
 package praktikum;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +40,10 @@ public class BurgerTest {
 
     @Mock
     Bun bun;
+    @Mock
+    Ingredient ingredientOne;
+    @Mock
+    Ingredient ingredientTwo;
 
     @Test
     public void setBuns() {
@@ -54,16 +56,20 @@ public class BurgerTest {
     @Test
     public void addIngredient() {
         Burger burger = new Burger();
-        Ingredient ingredient = new Ingredient(ingredientType, ingridientName, price);
-        burger.addIngredient(ingredient);
+        Mockito.when(ingredientOne.getType()).thenReturn(ingredientType);
+        Mockito.when(ingredientOne.getName()).thenReturn(ingridientName);
+        Mockito.when(ingredientOne.getPrice()).thenReturn(price);
+        burger.addIngredient(ingredientOne);
         assertEquals(ingridientName, burger.ingredients.get(0).getName());
     }
 
     @Test(expected=IndexOutOfBoundsException.class)
     public void removeIngredient() {
         Burger burger = new Burger();
-        Ingredient ingredient = new Ingredient(ingredientType, ingridientName, price);
-        burger.addIngredient(ingredient);
+        Mockito.when(ingredientOne.getType()).thenReturn(ingredientType);
+        Mockito.when(ingredientOne.getName()).thenReturn(ingridientName);
+        Mockito.when(ingredientOne.getPrice()).thenReturn(price);
+        burger.addIngredient(ingredientOne);
         burger.removeIngredient(0);
         burger.ingredients.get(0).getName();
     }
@@ -71,8 +77,10 @@ public class BurgerTest {
     @Test
     public void moveIngredient() {
         Burger burger = new Burger();
-        Ingredient ingredientOne = new Ingredient(ingredientType, ingridientName, price);
-        Ingredient ingredientTwo = new Ingredient(ingredientType, "ingridient name two", price);
+        Mockito.when(ingredientOne.getType()).thenReturn(ingredientType);
+        Mockito.when(ingredientOne.getName()).thenReturn(ingridientName);
+        Mockito.when(ingredientTwo.getName()).thenReturn("ingridient name two");
+        Mockito.when(ingredientOne.getPrice()).thenReturn(price);
         burger.addIngredient(ingredientOne);
         burger.addIngredient(ingredientTwo);
         burger.moveIngredient(1, 0);
@@ -83,7 +91,9 @@ public class BurgerTest {
     public void getPrice() {
         Burger burger = new Burger();
         float expectedPrice = 112.0f;
-        Ingredient ingredientOne = new Ingredient(ingredientType, ingridientName, price);
+        Mockito.when(ingredientOne.getType()).thenReturn(ingredientType);
+        Mockito.when(ingredientOne.getName()).thenReturn(ingridientName);
+        Mockito.when(ingredientOne.getPrice()).thenReturn(price);
         Mockito.when(bun.getPrice()).thenReturn(50.0f);
         burger.setBuns(bun);
         burger.addIngredient(ingredientOne);
@@ -100,8 +110,10 @@ public class BurgerTest {
                 "\n" +
                 "Price: 12,000000" +
                 "\n";
-        Ingredient ingredientOne = new Ingredient(ingredientType, ingridientName, price);
         Mockito.when(bun.getName()).thenReturn(bunName);
+        Mockito.when(ingredientOne.getType()).thenReturn(ingredientType);
+        Mockito.when(ingredientOne.getName()).thenReturn(ingridientName);
+        Mockito.when(ingredientOne.getPrice()).thenReturn(price);
         burger.setBuns(bun);
         burger.addIngredient(ingredientOne);
         String actualReceipt = burger.getReceipt();
